@@ -1,0 +1,81 @@
+<< 테이블 생성 SQL >>
+create table customer(
+    -> ID varchar(20),
+    -> name varchar(20) not null,
+    -> birth varchar(10) not null,
+    -> age int not null,
+    -> phone varchar(15) not null,
+    -> gender varchar(5) not null,
+    -> app varchar(20),
+    -> primary key(ID));
+
+create table party(
+    -> reserve_ID varchar(20),
+    -> name varchar(20) not null,
+    -> birth varchar(10) not null,
+    -> age int not null,
+    -> gender varchar(5) not null,
+    -> foreign key(reserve_ID) references customer(ID));
+
+create table owner(
+    -> own_no varchar(10),
+    -> name varchar(20) not null,
+    -> birth varchar(10) not null,
+    -> age int not null,
+    -> phone varchar(15) not null,
+    -> gender varchar(5) not null,
+    -> primary key(own_no));
+
+create table hotel(
+    -> address varchar(50),
+    -> name varchar(20) not null,
+    -> room_type varchar(10) not null,
+    -> room_have int not null,
+    -> room_fee varchar(10) not null,
+    -> h_owner varchar(10),
+    -> primary key(address),
+    -> foreign key(h_owner) references owner(own_no));
+
+create table staff(
+    -> staff_no varchar(10),
+    -> name varchar(20) not null,
+    -> birth varchar(10) not null,
+    -> age int not null,
+    -> primary key(staff_no));
+
+create table company(
+    -> name varchar(20),
+    -> phone varchar(15) not null unique,
+    -> address varchar(50) not null unique,
+    -> primary key(name));
+
+create table app(
+    -> name varchar(20),
+    -> create_day varchar(10) not null,
+    -> create_com varchar(20),
+    -> primary key(name),
+    -> foreign key(create_com) references company(name));
+
+create table reservation(
+    -> r_no varchar(10),
+    -> c_ID varchar(20),
+    -> startday date,
+    -> endday date,
+    -> r_time datetime,
+    -> h_address varchar(50),
+    -> primary key(r_no),
+    -> foreign key(h_address) references hotel(address) on delete cascade,
+    -> foreign key(c_ID) references customer(ID) on delete cascade);
+
+
+
+<< 작업 처리 SQL >>
+고객 회원가입
+insert into customer values('alecjoys', '조윤섭', '1996.03.21', 25, '010-1111-2222', '남', '헤이놀자');
+
+어플 예약
+insert into reservation values('신라_001', 'alecjoys',date_format('2020-12-14','%Y%m%d'),date_format('2020-12-15','%Y%m%d'),now(),'서울시 중구 동호로 249');
+
+예약 취소(아이디 기준)
+ delete from reservation where c_ID='alecjoys';
+
