@@ -70,12 +70,50 @@ create table reservation(
 
 
 << 작업 처리 SQL >>
+1. 고객
+
 고객 회원가입
 insert into customer values('alecjoys', '조윤섭', '1996.03.21', 25, '010-1111-2222', '남', '헤이놀자');
+
+고객 정보수정
+update customer set phone='010-2345-2340' where ID='alecjoys';
+
+호텔 조회(지역별)
+select * from hotel where address like '%서울%';
 
 어플 예약
 insert into reservation values('신라_001', 'alecjoys',date_format('2020-12-14','%Y%m%d'),date_format('2020-12-15','%Y%m%d'),now(),'서울시 중구 동호로 249');
 
-예약 취소(아이디 기준)
+예약 취소
  delete from reservation where c_ID='alecjoys';
+
+
+2. 업주
+
+업주 회원가입
+insert into owner values('A01', '조성대', '1969.09.26', 52, '010-2222-3333', '남');
+
+업주 정보수정(탈퇴시)
+delete from owner where own_no='A01';
+
+예약한 고객이름 확인
+select name from customer where ID in (select c_ID from reservation);
+
+예약한 고객의 이름과 호텔이름 조회
+select c.name, h.name from customer c, hotel h, reservation r where c.ID=r.c_ID and r.h_address=h.address;
+
+
+3. 회사
+회사 설립
+insert into company values('JYS COMPANY', '02-111-9999', '서울시 중구 필동로 1길 30');
+
+어플 제작
+insert into app values('헤이놀자', '2020.01.01', 'JYS COMPANY');
+
+고객 정보 확인
+select * from customer;
+
+업주 정보 확인
+select * from owner;
+
 
