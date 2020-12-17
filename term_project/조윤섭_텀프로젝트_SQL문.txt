@@ -59,10 +59,12 @@ create table app(
 create table reservation(
     -> r_no varchar(10),
     -> c_ID varchar(20),
-    -> startday date,
-    -> endday date,
+    -> startday date not null,
+    -> endday date not null,
     -> r_time datetime,
     -> h_address varchar(50),
+    -> room_type varchar(10) not null,
+    -> room_fee varchar(10) not null,
     -> primary key(r_no),
     -> foreign key(h_address) references hotel(address) on delete cascade,
     -> foreign key(c_ID) references customer(ID) on delete cascade);
@@ -82,10 +84,10 @@ update customer set phone='010-2345-2340' where ID='alecjoys';
 select * from hotel where address like '%서울%';
 
 어플 예약
-insert into reservation values('신라_001', 'alecjoys',date_format('2020-12-14','%Y%m%d'),date_format('2020-12-15','%Y%m%d'),now(),'서울시 중구 동호로 249');
+insert into reservation values('신라_001', 'alecjoys', date_format('2020-12-14','%Y%m%d'), date_format('2020-12-15','%Y%m%d'), now(), '서울시 중구 동호로 249', '디럭스', '55000');
 
 예약 취소
- delete from reservation where c_ID='alecjoys';
+delete from reservation where c_ID='alecjoys';
 
 
 2. 업주
